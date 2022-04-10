@@ -21,6 +21,8 @@ public class CameraManager : MonoBehaviour
    
     public Transform cameraPosition;
 
+    public bool outSphere = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -56,16 +58,45 @@ public class CameraManager : MonoBehaviour
 
         forceVec = (cameraPosition.position - mainCamera.transform.position).normalized * k * daRealXinFormula;
 
-        mainCamera.GetComponent<Rigidbody>().AddForce(forceVec, ForceMode.Force);
+        if (!CamOutOfSphere())
+        {
+            mainCamera.GetComponent<Rigidbody>().AddForce(forceVec, ForceMode.Force);
+        }
+        else
+        {
+            mainCamera.GetComponent<Rigidbody>().AddForce(0, 0, 0);
+            mainCamera.GetComponent<Rigidbody>().velocity =Vector3.zero;
+        }
+       
     }
     void CameraClampSphere()
     {
         Vector3 newPositionCam;
-        newPositionCam.x = Mathf.Clamp(mainCamera.transform.position.x, mainCamera.transform.position.x - radiusSphere, mainCamera.transform.position.x + radiusSphere);
-        newPositionCam.y = Mathf.Clamp(mainCamera.transform.position.y, mainCamera.transform.position.y - radiusSphere, mainCamera.transform.position.y + radiusSphere);
-        newPositionCam.z = Mathf.Clamp(mainCamera.transform.position.z, mainCamera.transform.position.z - radiusSphere, mainCamera.transform.position.z + radiusSphere);
+        newPositionCam.x = Mathf.Clamp(mainCamera.transform.position.x, cameraPosition.position.x - radiusSphere, cameraPosition.position.x + radiusSphere);
+        newPositionCam.y = Mathf.Clamp(mainCamera.transform.position.y, cameraPosition.position.y - radiusSphere, cameraPosition.position.y + radiusSphere);
+        newPositionCam.z = Mathf.Clamp(mainCamera.transform.position.z, cameraPosition.position.z - radiusSphere, cameraPosition.position.z + radiusSphere);
         mainCamera.transform.position = newPositionCam;
 
+    }
+    bool CamOutOfSphere()
+    {
+        outSphere = false;
+        if (mainCamera.transform.position.x < cameraPosition.position.x - radiusSphere || mainCamera.transform.position.x > cameraPosition.position.x + radiusSphere)
+        {
+            outSphere = true;
+            Debug.Log("fuera de la esfera X");
+        }
+        if ( mainCamera.transform.position.y < cameraPosition.position.y - radiusSphere || mainCamera.transform.position.y > cameraPosition.position.y + radiusSphere)
+        {
+            outSphere = true;
+            Debug.Log("fuera de la esfera Y");
+        }
+        if ( mainCamera.transform.position.z < cameraPosition.position.z - radiusSphere || mainCamera.transform.position.z > cameraPosition.position.z + radiusSphere)
+        {
+            outSphere = true;
+            Debug.Log("fuera de la esfera Z");
+        }
+        return outSphere;
     }
 }
 

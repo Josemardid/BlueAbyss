@@ -368,12 +368,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e6a76ad941b2754d9bd801347b98cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k: 17
+  k: 2
   mainCamera: {fileID: 1322682919}
   radiusSphere: 2
   distZ: 15
   distY: 10
   cameraPosition: {fileID: 1472704424}
+  outSphere: 0
 --- !u!1001 &4497369624455729305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -385,6 +386,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 07bae2bb8bac02f42aba72f84c0c9cef, type: 2}
+    - target: {fileID: 4497369622911731168, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
+      propertyPath: accelRotationMultiplier
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4497369622911731169, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -435,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4497369624650608573, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: m_Drag
-      value: 1.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4497369624792256905, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: m_Materials.Array.data[0]

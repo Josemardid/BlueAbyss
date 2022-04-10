@@ -124,15 +124,15 @@ public class SubmarineController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Alpha3))
         {
-            propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
-            propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
+            propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
+            propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
             
         }
 
         if (Input.GetKey(KeyCode.Alpha4))
         {
-            propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
-            propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
+            propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
+            propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }//Cabeceo re duro
 
