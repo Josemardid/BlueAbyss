@@ -16,18 +16,34 @@ public class UnitControl : MonoBehaviour
   [Range( 0.0f, 100.0f )]
   public float alignmentFactor = 1.0f;
 
-  [Range( 0.0f, 100.0f )]
+  [Range(0.0f, 100.0f)]
+  public float followingDirectionFactor = 1.0f;
+
+    [Range( 0.0f, 100.0f )]
   private float queryRadius = 100.0f;
+
+  public GameObject[] directionsArray;
+  public Transform foishDirection;
+  private float posDiff = 10.0f;
+
+  //private float timeToResetDirectionCounter = 10.0f;
+  //public float timeToResetDirection = 10.0f;
 
   ////////////////////////////////////////////////////////////////////////////////////////
 
-  // Start is called before the first frame update
+    // Start is called before the first frame update
   void Start()
   {
     transform.rotation = Quaternion.AngleAxis(
       Random.Range( 0.0f, 180.0f ),
       new Vector3( Random.Range( -1.0f, 1.0f ), Random.Range( -1.0f, 1.0f ), Random.Range( -1.0f, 1.0f ) )
     ).normalized;
+
+        //elegir direccion en el array
+        int randomDir = Random.Range(0, directionsArray.Length - 1);
+        foishDirection = directionsArray[randomDir].transform;
+
+        posDiff = followingDirectionFactor;// esto deberia ser [posDiff = MAX (100) - followingDirectionFactor] para que fuera mas intuitivo
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -35,9 +51,20 @@ public class UnitControl : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    float dt = Time.deltaTime;
     UpdateSeparation();
 
-    transform.position += Time.deltaTime * linearVelocityMagnitude * transform.forward;
+        
+    if (CheckFoishInDirection())//if no esta a una distacia del objetivo -> acercalo
+    {
+        //transform.position += Time.deltaTime * linearVelocityMagnitude * foishDirection.transform.position;
+        transform.position = Vector3.MoveTowards(transform.position, foishDirection.position, dt * linearVelocityMagnitude) ;
+    }
+    else
+    {
+        SelectNewDirection();
+
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -73,4 +100,32 @@ public class UnitControl : MonoBehaviour
       transform.rotation = Quaternion.Slerp( transform.rotation, totalRotation * transform.rotation, Time.deltaTime );
     }
   }
+
+    void SelectNewDirection()
+    {
+        int randomDir = 0;
+       
+        randomDir = Random.Range(0, directionsArray.Length - 1);
+        foishDirection = directionsArray[randomDir].transform;
+
+    }
+
+    bool CheckFoishInDirection()
+    {
+        bool inDirection = false;
+
+        if (transform.position.x< foishDirection.position.x- posDiff || transform.position.x > foishDirection.position.x + posDiff)
+        {
+            inDirection = true;
+        }
+        else if (transform.position.y < foishDirection.position.y - posDiff || transform.position.y > foishDirection.position.y + posDiff)
+        {
+            inDirection = true;
+        }
+        else if (transform.position.z < foishDirection.position.z - posDiff || transform.position.z > foishDirection.position.z + posDiff)
+        {
+            inDirection = true;
+        }
+        return inDirection;
+    }
 }
