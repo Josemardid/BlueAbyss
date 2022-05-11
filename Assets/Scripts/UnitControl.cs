@@ -18,6 +18,8 @@ public class UnitControl : MonoBehaviour
 
   [Range(0.0f, 100.0f)]
   public float followingDirectionFactor = 1.0f;
+    [Range(0.0f, 100.0f)]
+  public float kelpFactor = 1.0f;
 
     [Range( 0.0f, 100.0f )]
   private float queryRadius = 100.0f;
@@ -57,8 +59,8 @@ public class UnitControl : MonoBehaviour
         
     if (CheckFoishInDirection())//if no esta a una distacia del objetivo -> acercalo
     {
-        //transform.position += Time.deltaTime * linearVelocityMagnitude * foishDirection.transform.position;
-        transform.position = Vector3.MoveTowards(transform.position, foishDirection.position, dt * linearVelocityMagnitude) ;
+        transform.position += Time.deltaTime * linearVelocityMagnitude * transform.forward;
+        //transform.position = Vector3.MoveTowards(transform.position, foishDirection.position, dt * linearVelocityMagnitude) ;
     }
     else
     {
@@ -95,8 +97,8 @@ public class UnitControl : MonoBehaviour
 
       Vector3 directionSeparation = transform.position - positionAverage;
       Vector3 directionCloseUp = -directionSeparation;
-
-      Quaternion totalRotation = Quaternion.FromToRotation( transform.forward, separationFactor * directionSeparation + closeUpFactor * directionCloseUp + alignmentFactor * directionAlignment );
+      Vector3 directionToKelp= directionsArray[0].transform.position - this.transform.position;
+      Quaternion totalRotation = Quaternion.FromToRotation( transform.forward, separationFactor * directionSeparation + closeUpFactor * directionCloseUp + alignmentFactor * directionAlignment + directionToKelp * kelpFactor);
       transform.rotation = Quaternion.Slerp( transform.rotation, totalRotation * transform.rotation, Time.deltaTime );
     }
   }
