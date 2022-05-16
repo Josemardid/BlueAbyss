@@ -32,10 +32,16 @@ public class SubmarineController : MonoBehaviour
     public GameObject propDownFront;
     public GameObject propDownRear;
 
+    public GameObject bulletPrefab;
+    public Transform placeToShoot;
+
+
+
     public float accelMultiplier;
     public float accelRotationMultiplier;
+    public float bulletImpulse;
 
-#endregion
+#endregion 
 
 #region MonoBehaviour Methods
     // Start is called before the first frame update
@@ -56,6 +62,11 @@ public class SubmarineController : MonoBehaviour
         propDownRearRg = propDownRear.GetComponent<Rigidbody>();
     }
 
+    private void Update()
+    {
+        UpdateFire();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -71,27 +82,27 @@ public class SubmarineController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            FwdRg.AddForce(FwdRg.transform.forward.normalized * accelMultiplier, ForceMode.Force);
+            FwdRg.AddForce(FwdRg.transform.forward.normalized * -accelMultiplier, ForceMode.Force);
 
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            BackwRg.AddForce(BackwRg.transform.forward.normalized * -accelMultiplier, ForceMode.Force);
+            BackwRg.AddForce(BackwRg.transform.forward.normalized * accelMultiplier, ForceMode.Force);
             
         }//Palante patras
 
         if (Input.GetKey(KeyCode.Q))
         {
-            propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
-            propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
+            propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
+            propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }
 
         if (Input.GetKey(KeyCode.E))
         {
-            propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
-            propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
+            propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
+            propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }//Rotacion momentazgo
 
@@ -135,6 +146,23 @@ public class SubmarineController : MonoBehaviour
             propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }//Cabeceo re duro
+
+
+
+
+    }
+
+
+    private void UpdateFire() {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            GameObject go;
+            go = Instantiate<GameObject>(bulletPrefab, placeToShoot.position, Quaternion.identity);
+            go.GetComponent<Rigidbody>().AddForce(-placeToShoot.up.normalized * bulletImpulse, ForceMode.Impulse);
+
+            Destroy(go, 8);
+            //Disparar
+        }
 
     }
 #endregion

@@ -539,6 +539,36 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.008973438
   m_Center: {x: 0.0001407885, y: 0, z: 0}
+--- !u!1 &587624746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 587624747}
+  m_Layer: 0
+  m_Name: ShooterPlace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &587624747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587624746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.153, y: -1.076, z: -0.265}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2138546797}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &594741287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11621,8 +11651,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 07bae2bb8bac02f42aba72f84c0c9cef, type: 2}
     - target: {fileID: 4497369622911731168, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 6453405880117796124, guid: 7fe3cafb42777ad488731288576c9f32, type: 3}
+    - target: {fileID: 4497369622911731168, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
+      propertyPath: placeToShoot
+      value: 
+      objectReference: {fileID: 587624747}
+    - target: {fileID: 4497369622911731168, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
+      propertyPath: bulletImpulse
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497369622911731168, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: accelRotationMultiplier
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4497369622911731169, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: m_RootOrder
@@ -11703,6 +11745,10 @@ PrefabInstance:
     - target: {fileID: 4497369624650608573, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: m_Drag
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4497369624650608573, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4497369624792256905, guid: 1709293354ed74e408604c346aaeafb0, type: 3}
       propertyPath: m_Materials.Array.data[0]

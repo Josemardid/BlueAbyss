@@ -13,7 +13,8 @@ public class CameraManager : MonoBehaviour
 
     private float distBtnObjs;
     private Vector3 forceVec;
-
+    private float EmergencyKAdd = 4;
+    private float EmergencyK;
     public float radiusSphere = 2;
 
     public float distZ = 15;
@@ -30,14 +31,22 @@ public class CameraManager : MonoBehaviour
         cameraPosition.position = new Vector3(this.transform.position.x, this.transform.position.y + distY, this.transform.position.z - distZ);
         elongation = radiusSphere;
         mainCamera.transform.position = cameraPosition.position;
+
+        EmergencyK = k + EmergencyKAdd;
     }
 
     // Update is called once per frame
+    public void Update()
+    {
+        CameraClampSphere();
+    }
+
+   
     void FixedUpdate()
     {
         HookeMov();
-        CameraClampSphere();
-        mainCamera.transform.LookAt(this.transform);
+        
+        mainCamera.transform.LookAt(this.gameObject.transform);
 
         
     }
@@ -61,11 +70,15 @@ public class CameraManager : MonoBehaviour
         if (!CamOutOfSphere())
         {
             mainCamera.GetComponent<Rigidbody>().AddForce(forceVec, ForceMode.Force);
+            k = EmergencyK - EmergencyKAdd;
+
         }
         else
         {
-            mainCamera.GetComponent<Rigidbody>().AddForce(0, 0, 0);
-            mainCamera.GetComponent<Rigidbody>().velocity =Vector3.zero;
+            k = EmergencyK;
+            //Vector3 toPosition = (cameraPosition.position - mainCamera.transform.position).normalized;
+            //No se arreglar la cam
+            //mainCamera.GetComponent<Rigidbody>().velocity =Vector3.zero;
         }
        
     }
