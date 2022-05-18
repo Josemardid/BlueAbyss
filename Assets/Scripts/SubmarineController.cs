@@ -17,6 +17,8 @@ public class SubmarineController : MonoBehaviour
     private Rigidbody propDownFrontRg;
     private Rigidbody propDownRearRg;
 
+
+    private float timerBullet = 0f;
     #endregion
 
     #region Public Attributes
@@ -32,14 +34,12 @@ public class SubmarineController : MonoBehaviour
     public GameObject propDownFront;
     public GameObject propDownRear;
 
-    public GameObject bulletPrefab;
     public Transform placeToShoot;
-
-
 
     public float accelMultiplier;
     public float accelRotationMultiplier;
     public float bulletImpulse;
+    public float timeToShoot;
 
 #endregion 
 
@@ -60,11 +60,14 @@ public class SubmarineController : MonoBehaviour
         propUpRearRg = propUpRear.GetComponent<Rigidbody>();
         propDownFrontRg = propDownFront.GetComponent<Rigidbody>();
         propDownRearRg = propDownRear.GetComponent<Rigidbody>();
+
+
+
     }
 
     private void Update()
     {
-        UpdateFire();
+        UpdateFire(Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -147,20 +150,23 @@ public class SubmarineController : MonoBehaviour
 
         }//Cabeceo re duro
 
-
-
-
     }
 
 
-    private void UpdateFire() {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            GameObject go;
-            go = Instantiate<GameObject>(bulletPrefab, placeToShoot.position, Quaternion.identity);
-            go.GetComponent<Rigidbody>().AddForce(-placeToShoot.up.normalized * bulletImpulse, ForceMode.Impulse);
+    private void UpdateFire(float dt) {
 
-            Destroy(go, 8);
+        timerBullet += dt;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && timerBullet >= timeToShoot)
+        {
+            GameObject go = PoolManager.instance.GetObject(placeToShoot.position,"Bullet");
+
+            if(go != null)
+            {
+                go.GetComponent<Rigidbody>().AddForce(-placeToShoot.up.normalized * bulletImpulse, ForceMode.Impulse);
+            }
+
+            timerBullet = 0;
             //Disparar
         }
 
