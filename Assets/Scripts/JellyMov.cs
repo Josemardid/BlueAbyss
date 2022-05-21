@@ -28,23 +28,25 @@ public class JellyMov : MonoBehaviour
 
         if (objective !=null)
         {
+            float distance = (objective.transform.position - transform.position).magnitude;
             //state of the movement
-            if(objective.transform.position.y - transform.position.y > minDistance)
+            if (distance < minDistance)
             {
                 towardsObjective = false;
-            }else if (objective.transform.position.y - transform.position.y < maxDistance)
+            }else if (distance > maxDistance)
             {
                 towardsObjective = true;
             }
             //behaviour
             if (towardsObjective)
             {
-                GetComponent<Rigidbody>().velocity = new Vector3(0, -velUp * dt, 0);
+                GetComponent<Rigidbody>().velocity = new Vector3(0, velUp * dt, 0);
             }
             else
             {
-                GetComponent<Rigidbody>().velocity = new Vector3(0, velDown * dt, 0);
+                GetComponent<Rigidbody>().velocity = new Vector3(0, -velDown * dt, 0);
             }
+
 
             //this.transform.LookAt(objective);
             //transform.position = Vector3.MoveTowards(transform.position, objective.transform.position, dt);
