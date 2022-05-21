@@ -30,6 +30,8 @@ public class SubmarineController : MonoBehaviour
     private bool key4;
 
     private float timerBullet = 0f;
+
+    private int pearlsCollected = 0;
     #endregion
 
     #region Public Attributes
@@ -54,7 +56,6 @@ public class SubmarineController : MonoBehaviour
 
     public GameObject Arm;
 
-    
 
 
 
@@ -87,6 +88,8 @@ public class SubmarineController : MonoBehaviour
         UpdateInputMovement();
 
         UpdateFire(Time.deltaTime);
+
+        Debug.Log("Pearls: " + pearlsCollected);
     }
 
     // Update is called once per frame
@@ -121,6 +124,11 @@ public class SubmarineController : MonoBehaviour
             }
             else
             {
+                if (Arm.GetComponent<ArmControllerIK>().toDestroy != null)
+                {
+                    Arm.GetComponent<ArmControllerIK>().toDestroy.SetActive(false);
+                }
+                
                 Arm.GetComponent<ArmControllerIK>().SearchTarget();
                 Arm.GetComponent<ArmControllerIK>().isSearching = true;
             }
@@ -128,6 +136,11 @@ public class SubmarineController : MonoBehaviour
         }
     }
 
+
+    public void addPearlCollected()
+    {
+        pearlsCollected++;
+    }
 
 
     private void UpdateMovement(float dt)

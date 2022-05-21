@@ -7,6 +7,7 @@ public class ArmControllerIK : MonoBehaviour
     #region Private Attributes
     private GameObject target;
     private GameObject[] allPearls;
+    
     #endregion
 
     #region Public Attributes
@@ -15,17 +16,17 @@ public class ArmControllerIK : MonoBehaviour
     public GameObject targetToBeHidden;
     public GameObject targetToSearch;
     public Transform[] armParts;
-    
+    public GameObject toDestroy;
+    public GameObject hook;
 
+    #endregion
 
-#endregion
-
-#region MonoBehaviour Methods
+    #region MonoBehaviour Methods
     // Start is called before the first frame update
     void Start()
     {
 
-        allPearls = GameObject.FindGameObjectsWithTag("Pearl");
+        
         //Podriamos inicializar aqui el brazo pero pa que, lo importante es que sean hijos uno de otros
     }
 
@@ -35,6 +36,11 @@ public class ArmControllerIK : MonoBehaviour
         if (isSearching)
         {
             target = targetToSearch;
+
+            if(targetToSearch == null)
+            {
+                target = targetToBeHidden;
+            }
         }
         else
         {
@@ -50,19 +56,28 @@ public class ArmControllerIK : MonoBehaviour
 
     public void SearchTarget()
     {
-        int pearlIndex = 0;
-        float distToPearl = (allPearls[0].transform.position - this.transform.position).magnitude;
-
-        for(int i = 0; i<allPearls.Length; i++)
+        allPearls = GameObject.FindGameObjectsWithTag("Pearl");
+        if(allPearls.Length > 0)
         {
-            if(distToPearl > (allPearls[i].transform.position - this.transform.position).magnitude)
-            {
-                distToPearl = (allPearls[i].transform.position - this.transform.position).magnitude;
-                pearlIndex = i;
-            }
-        }
+            int pearlIndex = 0;
+            float distToPearl = (allPearls[0].transform.position - this.transform.position).magnitude;
 
-        targetToSearch = allPearls[pearlIndex];
+            for (int i = 0; i < allPearls.Length; i++)
+            {
+                if (allPearls[i] != null && distToPearl > (allPearls[i].transform.position - this.transform.position).magnitude)
+                {
+                    distToPearl = (allPearls[i].transform.position - this.transform.position).magnitude;
+                    pearlIndex = i;
+                }
+            }
+
+            targetToSearch = allPearls[pearlIndex];
+        }
+        else
+        {
+            targetToSearch = null;
+        }
+        
     }
 
 
@@ -87,18 +102,25 @@ public class ArmControllerIK : MonoBehaviour
             {
                 //currentDir = armParts[i].forward;
             }
+            if(target != null)
+            {
+                Vector3 goalDirection = target.transform.position - armParts[i].position;
+                Quaternion goalOrientation = Quaternion.FromToRotation(currentDir, goalDirection) * armParts[i].rotation;
+                Quaternion newOrientation = Quaternion.Slerp(armParts[i].rotation, goalOrientation, 1.0f * dt);
+            
+            
 
-            Vector3 goalDirection = target.transform.position - armParts[i].position;
-            Quaternion goalOrientation = Quaternion.FromToRotation(currentDir, goalDirection) * armParts[i].rotation;
-            Quaternion newOrientation = Quaternion.Slerp(armParts[i].rotation, goalOrientation, 1.0f * dt);
 
             if (armParts[i].parent == null || transform.GetComponent<ArmAttributes>() == null || Vector3.Angle(armParts[i].parent.transform.forward, newOrientation * -Vector3.forward) < transform.GetComponent<ArmAttributes>().angleLimit)
             {
                 armParts[i].rotation = newOrientation;
 
             }
+            }
         }
     }
+
+
 
     #endregion
 
