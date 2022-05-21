@@ -18,6 +18,17 @@ public class SubmarineController : MonoBehaviour
     private Rigidbody propDownRearRg;
 
 
+    private bool keyW;
+    private bool keyA;
+    private bool keyS;
+    private bool keyD;
+    private bool keyQ;
+    private bool keyE;
+    private bool key1;
+    private bool key2;
+    private bool key3;
+    private bool key4;
+
     private float timerBullet = 0f;
     #endregion
 
@@ -40,6 +51,12 @@ public class SubmarineController : MonoBehaviour
     public float accelRotationMultiplier;
     public float bulletImpulse;
     public float timeToShoot;
+
+    public GameObject Arm;
+
+    
+
+
 
 #endregion 
 
@@ -67,6 +84,8 @@ public class SubmarineController : MonoBehaviour
 
     private void Update()
     {
+        UpdateInputMovement();
+
         UpdateFire(Time.deltaTime);
     }
 
@@ -80,55 +99,85 @@ public class SubmarineController : MonoBehaviour
 #endregion
 
 #region HumanMade Methods
+    private void UpdateInputMovement()
+    {
+        keyW = Input.GetKey(KeyCode.W);
+        keyA = Input.GetKey(KeyCode.A);
+        keyS = Input.GetKey(KeyCode.S);
+        keyD = Input.GetKey(KeyCode.D);
+        keyQ = Input.GetKey(KeyCode.Q);
+        keyE = Input.GetKey(KeyCode.E);
+        key1 = Input.GetKey(KeyCode.Alpha1);
+        key2 = Input.GetKey(KeyCode.Alpha2);
+        key3 = Input.GetKey(KeyCode.Alpha3);
+        key4 = Input.GetKey(KeyCode.Alpha4);
+//SHit ya lo siento
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Arm.GetComponent<ArmControllerIK>().isSearching)
+            {
+                Arm.GetComponent<ArmControllerIK>().isSearching = false;
+            }
+            else
+            {
+                Arm.GetComponent<ArmControllerIK>().SearchTarget();
+                Arm.GetComponent<ArmControllerIK>().isSearching = true;
+            }
+
+        }
+    }
+
+
 
     private void UpdateMovement(float dt)
     {
-        if (Input.GetKey(KeyCode.W))
+        if (keyW)
         {
             FwdRg.AddForce(FwdRg.transform.forward.normalized * -accelMultiplier, ForceMode.Force);
 
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (keyS)
         {
             BackwRg.AddForce(BackwRg.transform.forward.normalized * accelMultiplier, ForceMode.Force);
             
         }//Palante patras
 
-        if (Input.GetKey(KeyCode.Q))
+        if (keyQ)
         {
             propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
             propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }
 
-        if (Input.GetKey(KeyCode.E))
+        if (keyE)
         {
             propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
             propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }//Rotacion momentazgo
 
-        if (Input.GetKey(KeyCode.A))
+        if (keyA)
         {
             propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * -accelMultiplier, ForceMode.Force);
             propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * -accelMultiplier, ForceMode.Force);
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (keyD)
         {
             propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * accelMultiplier, ForceMode.Force);
             propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * accelMultiplier, ForceMode.Force);
 
         }//Movimiento lateral
 
-        if (Input.GetKey(KeyCode.Alpha1))
+        if (key1)
         {
             propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
             propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
         }
 
-        if (Input.GetKey(KeyCode.Alpha2))
+        if (key2)
         {
             propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
             propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
@@ -136,19 +185,21 @@ public class SubmarineController : MonoBehaviour
         }//Subida y bajada
 
 
-        if (Input.GetKey(KeyCode.Alpha3))
+        if (key3)
         {
             propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
             propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
             
         }
 
-        if (Input.GetKey(KeyCode.Alpha4))
+        if (key4)
         {
             propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
             propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
 
         }//Cabeceo re duro
+
+
 
     }
 

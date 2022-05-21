@@ -29,23 +29,23 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         cameraPosition.position = new Vector3(this.transform.position.x, this.transform.position.y + distY, this.transform.position.z - distZ);
-        elongation = radiusSphere;
+        //elongation = radiusSphere;
         mainCamera.transform.position = cameraPosition.position;
 
-        EmergencyK = k + EmergencyKAdd;
+        //EmergencyK = k + EmergencyKAdd;
     }
 
     // Update is called once per frame
     public void Update()
     {
-        CameraClampSphere();
+        //CameraClampSphere();
     }
 
    
     void FixedUpdate()
     {
-        HookeMov();
-        
+        //HookeMov();
+        mainCamera.transform.position = cameraPosition.position;
         mainCamera.transform.LookAt(this.gameObject.transform);
 
         
