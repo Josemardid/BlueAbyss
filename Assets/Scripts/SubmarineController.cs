@@ -34,6 +34,8 @@ public class SubmarineController : MonoBehaviour
 
     private int pearlsCollected = 0;
     private int pearlsToCollect = 0;
+
+    private AudioManager audio;
     #endregion
 
     #region Public Attributes
@@ -84,6 +86,8 @@ public class SubmarineController : MonoBehaviour
 
 
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
+
+        audio = FindObjectOfType<AudioManager>();
     }
 
     private void Update()
@@ -153,6 +157,8 @@ public class SubmarineController : MonoBehaviour
     {
         pearlsCollected++;
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
+        audio.Play("Arm");
+        Arm.GetComponent<ArmControllerIK>().hasSoundedYet = false;
     }
 
 
@@ -245,6 +251,7 @@ public class SubmarineController : MonoBehaviour
 
             timerBullet = 0;
             //Disparar
+            audio.Play("Torpedo");
         }
 
     }

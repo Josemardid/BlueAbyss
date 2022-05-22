@@ -7,7 +7,9 @@ public class ArmControllerIK : MonoBehaviour
     #region Private Attributes
     private GameObject target;
     private GameObject[] allPearls;
-    
+
+    private AudioManager audio;
+  
     #endregion
 
     #region Public Attributes
@@ -21,6 +23,7 @@ public class ArmControllerIK : MonoBehaviour
 
     public GameObject submarine;
 
+    public bool hasSoundedYet = false;//lo siento
     #endregion
 
     #region MonoBehaviour Methods
@@ -30,6 +33,8 @@ public class ArmControllerIK : MonoBehaviour
         allPearls = GameObject.FindGameObjectsWithTag("Pearl");
         submarine.GetComponent<SubmarineController>().setAllPearls(allPearls.Length);
         //Podriamos inicializar aqui el brazo pero pa que, lo importante es que sean hijos uno de otros
+
+        audio = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -42,11 +47,14 @@ public class ArmControllerIK : MonoBehaviour
             if(targetToSearch == null)
             {
                 target = targetToBeHidden;
+              
             }
+            CheckSound();
         }
         else
         {
             target = targetToBeHidden;
+          
         }
 
         UpdateArmController(Time.deltaTime);
@@ -78,6 +86,7 @@ public class ArmControllerIK : MonoBehaviour
         else
         {
             targetToSearch = null;
+
         }
         
     }
@@ -122,7 +131,14 @@ public class ArmControllerIK : MonoBehaviour
         }
     }
 
-
+    public void CheckSound()
+    {
+        if (!hasSoundedYet)
+        {
+            audio.Play("Arm");
+            hasSoundedYet = true;
+        }
+    }
 
     #endregion
 
