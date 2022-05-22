@@ -8,7 +8,7 @@ public class SubmarineAnimationController : MonoBehaviour
     private GameObject[] allPearls;
     private GameObject targetToSearch;
     private float timer = 0;
-    private bool rotating = false;
+   
 
     #endregion
 
@@ -25,7 +25,7 @@ public class SubmarineAnimationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        allPearls = GameObject.FindGameObjectsWithTag("Pearl");
+        SearchTarget();
     }
 
     // Update is called once per frame
@@ -33,8 +33,8 @@ public class SubmarineAnimationController : MonoBehaviour
     {
         float dt = Time.deltaTime;
 
-        //PropellerMovement(dt);
-        //PeriscopeMovement(dt);
+        PropellerMovement(dt);
+        PeriscopeMovement(dt);
     }
 #endregion
 
@@ -43,7 +43,7 @@ public class SubmarineAnimationController : MonoBehaviour
     public void PropellerMovement(float dt)
     {
 
-        propeller.transform.Rotate(0,dt*propellerSpeed,0);
+        propeller.transform.Rotate(0,0, dt * propellerSpeed);
     }
 
     public void PeriscopeMovement(float dt)
@@ -52,32 +52,37 @@ public class SubmarineAnimationController : MonoBehaviour
         if(timer > timeToRotate)
         {
             SearchTarget();
-            rotating = true;
+            
             timer = 0;
         }
-        
-        //Quaternion.Slerp(periscope.transform.rotation, )
+        Vector3 lookPos = targetToSearch.transform.position - periscope.transform.position;
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        periscope.transform.rotation = Quaternion.Slerp(periscope.transform.rotation, rotation, dt);
 
-        //periscope.transform.LookAt(targetToSearch.transform);
         
     }
 
 
     public void SearchTarget()
     {
-        int pearlIndex = 0;
-        float distToPearl = (allPearls[0].transform.position - this.transform.position).magnitude;
-
-        for (int i = 0; i < allPearls.Length; i++)
+        allPearls = GameObject.FindGameObjectsWithTag("Pearl");
+        if (allPearls.Length > 0)
         {
-            if (distToPearl > (allPearls[i].transform.position - this.transform.position).magnitude)
-            {
-                distToPearl = (allPearls[i].transform.position - this.transform.position).magnitude;
-                pearlIndex = i;
-            }
-        }
+            int pearlIndex = 0;
+            float distToPearl = (allPearls[0].transform.position - this.transform.position).magnitude;
 
-        targetToSearch = allPearls[pearlIndex];
+            for (int i = 0; i < allPearls.Length; i++)
+            {
+                if (distToPearl > (allPearls[i].transform.position - this.transform.position).magnitude)
+                {
+                    distToPearl = (allPearls[i].transform.position - this.transform.position).magnitude;
+                    pearlIndex = i;
+                }
+            }
+
+            targetToSearch = allPearls[pearlIndex];
+        }
     }
     #endregion
 

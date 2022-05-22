@@ -16,8 +16,10 @@ public class ArmControllerIK : MonoBehaviour
     public GameObject targetToBeHidden;
     public GameObject targetToSearch;
     public Transform[] armParts;
-    public GameObject toDestroy;
+    //public GameObject toDestroy;
     public GameObject hook;
+
+    public GameObject submarine;
 
     #endregion
 
@@ -25,8 +27,8 @@ public class ArmControllerIK : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        
+        allPearls = GameObject.FindGameObjectsWithTag("Pearl");
+        submarine.GetComponent<SubmarineController>().setAllPearls(allPearls.Length);
         //Podriamos inicializar aqui el brazo pero pa que, lo importante es que sean hijos uno de otros
     }
 

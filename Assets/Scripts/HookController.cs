@@ -35,28 +35,43 @@ public class HookController : MonoBehaviour
                 if ((this.gameObject.transform.position - target.transform.position).magnitude < maxDiff)
                 {
                     objGrabbed = true;
-                    addObj = true;
+                    
 
 
                     //No se cuando sumar todo
                 }
             }
 
-            
-
         }
+
+        if (!arm.GetComponent<ArmControllerIK>().isSearching && objGrabbed)
+        {
+            if ((this.gameObject.transform.position - arm.GetComponent<ArmControllerIK>().targetToBeHidden.transform.position).magnitude < maxDiff)
+            {
+                target.SetActive(false);
+                objGrabbed = false;
+                addObj = false;
+                
+            }
+        }
+
+
 
         if (objGrabbed && target != null)
         {
             target.transform.position = this.gameObject.transform.position;
             arm.GetComponent<ArmControllerIK>().isSearching = false;//para que lo guarde
-            arm.GetComponent<ArmControllerIK>().toDestroy = target;
+            
+
+            if (!addObj)
+            {
+                submarine.GetComponent<SubmarineController>().addPearlCollected();
+                addObj = true;
+            }
+    
         }
 
-        if (target != null && !target.activeInHierarchy)
-        {
-            objGrabbed = false;
-        }
+
 
 
         

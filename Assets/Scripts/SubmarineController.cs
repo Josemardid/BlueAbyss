@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SubmarineController : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class SubmarineController : MonoBehaviour
     private float timerBullet = 0f;
 
     private int pearlsCollected = 0;
+    private int pearlsToCollect = 0;
     #endregion
 
     #region Public Attributes
@@ -56,6 +58,7 @@ public class SubmarineController : MonoBehaviour
 
     public GameObject Arm;
 
+    public Text ScoreText;
 
 
 
@@ -80,7 +83,7 @@ public class SubmarineController : MonoBehaviour
         propDownRearRg = propDownRear.GetComponent<Rigidbody>();
 
 
-
+        ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
     }
 
     private void Update()
@@ -89,7 +92,9 @@ public class SubmarineController : MonoBehaviour
 
         UpdateFire(Time.deltaTime);
 
-        Debug.Log("Pearls: " + pearlsCollected);
+
+
+        //Debug.Log("Pearls: " + pearlsCollected);
     }
 
     // Update is called once per frame
@@ -102,6 +107,13 @@ public class SubmarineController : MonoBehaviour
 #endregion
 
 #region HumanMade Methods
+    public void setAllPearls(int p)
+    {
+        pearlsToCollect = p;
+    }
+
+
+
     private void UpdateInputMovement()
     {
         keyW = Input.GetKey(KeyCode.W);
@@ -124,10 +136,10 @@ public class SubmarineController : MonoBehaviour
             }
             else
             {
-                if (Arm.GetComponent<ArmControllerIK>().toDestroy != null)
-                {
-                    Arm.GetComponent<ArmControllerIK>().toDestroy.SetActive(false);
-                }
+                //if (Arm.GetComponent<ArmControllerIK>().toDestroy != null)
+                //{
+                //    Arm.GetComponent<ArmControllerIK>().toDestroy.SetActive(false);
+                //}
                 
                 Arm.GetComponent<ArmControllerIK>().SearchTarget();
                 Arm.GetComponent<ArmControllerIK>().isSearching = true;
@@ -140,6 +152,7 @@ public class SubmarineController : MonoBehaviour
     public void addPearlCollected()
     {
         pearlsCollected++;
+        ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
     }
 
 
