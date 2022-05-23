@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3523403914663532854}
   - component: {fileID: 525371549578073747}
   - component: {fileID: 2354971309947118169}
+  - component: {fileID: 4452051639842482589}
+  - component: {fileID: 1692382039410770835}
   m_Layer: 0
   m_Name: foish
   m_TagString: Untagged
@@ -81,3 +83,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4452051639842482589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300504014963721100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb60cebcfbcf2d1428e66b0a1ac7e463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linearVelocityMagnitude: 10
+  separationFactor: 1
+  closeUpFactor: 1
+  alignmentFactor: 1
+  pathFactor: 1
+  predatorFactor: 0
+  queryRadius: 100
+  directionsArray: []
+  predator: {fileID: 0}
+  distToPredator: 0
+  foishDirection: {fileID: 0}
+  posDiff: 10
+  timeToChangeDir: 10
+  timePassed: 10
+--- !u!135 &1692382039410770835
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300504014963721100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.008973438
+  m_Center: {x: 0.0001407885, y: 0, z: 0}
