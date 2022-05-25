@@ -96,8 +96,6 @@ public class SubmarineController : MonoBehaviour
 
         UpdateFire(Time.deltaTime);
 
-
-
         //Debug.Log("Pearls: " + pearlsCollected);
     }
 
@@ -114,6 +112,7 @@ public class SubmarineController : MonoBehaviour
     public void setAllPearls(int p)
     {
         pearlsToCollect = p;
+        ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
     }
 
 
@@ -132,10 +131,11 @@ public class SubmarineController : MonoBehaviour
         key4 = Input.GetKey(KeyCode.Alpha4);
 //SHit ya lo siento
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             if (Arm.GetComponent<ArmControllerIK>().isSearching)
             {
+                audio.Play("Arm");
                 Arm.GetComponent<ArmControllerIK>().isSearching = false;
             }
             else
@@ -144,7 +144,7 @@ public class SubmarineController : MonoBehaviour
                 //{
                 //    Arm.GetComponent<ArmControllerIK>().toDestroy.SetActive(false);
                 //}
-                
+                audio.Play("Arm");
                 Arm.GetComponent<ArmControllerIK>().SearchTarget();
                 Arm.GetComponent<ArmControllerIK>().isSearching = true;
             }

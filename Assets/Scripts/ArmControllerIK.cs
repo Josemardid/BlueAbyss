@@ -67,7 +67,8 @@ public class ArmControllerIK : MonoBehaviour
     public void SearchTarget()
     {
         allPearls = GameObject.FindGameObjectsWithTag("Pearl");
-        if(allPearls.Length > 0)
+        
+        if (allPearls.Length > 0)
         {
             int pearlIndex = 0;
             float distToPearl = (allPearls[0].transform.position - this.transform.position).magnitude;

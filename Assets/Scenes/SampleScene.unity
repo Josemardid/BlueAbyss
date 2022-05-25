@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16869739, g: 0.2536176, b: 0.4146921, a: 1}
+  m_IndirectSpecularColor: {r: 0.16876993, g: 0.25380734, b: 0.41485175, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2085,9 +2085,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propellerSpeed: 450
-  timeToRotate: 2
+  timeToRotate: 1
   periscope: {fileID: 1471508604}
   propeller: {fileID: 190433779}
+  submarine: {fileID: 1313216551}
 --- !u!1 &397718998
 GameObject:
   m_ObjectHideFlags: 0
@@ -15462,7 +15463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1419189349
 Transform:
   m_ObjectHideFlags: 0

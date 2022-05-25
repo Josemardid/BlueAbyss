@@ -57,6 +57,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeAlive: 5
+  pearlPrefab: {fileID: 3287985621964174566, guid: d70f95d0b3b0eb347bacff2d84ad6661, type: 3}
 --- !u!23 &6453405880117796114
 MeshRenderer:
   m_ObjectHideFlags: 0

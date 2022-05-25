@@ -7,10 +7,12 @@ public class BulletController : MonoBehaviour
     #region Private Attributes
     private float timeToLive;
     private float timer;
+    private bool onePearl = true;
     #endregion
 
     #region Public Attributes
     public float timeAlive = 5f;
+    public GameObject pearlPrefab;
     
 
 #endregion
@@ -52,9 +54,14 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Target")
+        if(collision.gameObject.tag == "Target" && onePearl)
         {
+            
+            Instantiate<GameObject>(pearlPrefab, collision.gameObject.transform.position, Quaternion.identity);
+            Destroy(collision.gameObject);
             EndBullet();
+
+            onePearl = false;// para que salga dos veces
         }
     }
 

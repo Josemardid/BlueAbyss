@@ -18,6 +18,7 @@ public class SubmarineAnimationController : MonoBehaviour
 
     public GameObject periscope;
     public GameObject propeller;
+    public GameObject submarine;
 
 #endregion
 
@@ -67,6 +68,7 @@ public class SubmarineAnimationController : MonoBehaviour
     public void SearchTarget()
     {
         allPearls = GameObject.FindGameObjectsWithTag("Pearl");
+        submarine.GetComponent<SubmarineController>().setAllPearls(allPearls.Length);
         if (allPearls.Length > 0)
         {
             int pearlIndex = 0;
