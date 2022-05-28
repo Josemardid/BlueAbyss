@@ -8,6 +8,7 @@ public class BulletController : MonoBehaviour
     private float timeToLive;
     private float timer;
     private bool onePearl = true;
+    private AudioManager audioM;
     #endregion
 
     #region Public Attributes
@@ -23,6 +24,8 @@ public class BulletController : MonoBehaviour
     {
         timeToLive = timeAlive;
         timer = timeAlive;
+
+        audioM = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -62,6 +65,7 @@ public class BulletController : MonoBehaviour
             EndBullet();
 
             onePearl = false;// para que salga dos veces
+            audioM.Play("Target");
         }
     }
 
