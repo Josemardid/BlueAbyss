@@ -2183,12 +2183,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linearVelocityMagnitude: 8
-  queryRadius: 100
   separationFactor: 9
   closeUpFactor: 16
   alignmentFactor: 11
   pathFactor: 10
-  predatorFactor: 1
+  predatorFactor: 24.8
   distToPredator: 0
   posDiff: 1
   directionsArray:
@@ -2198,7 +2197,7 @@ MonoBehaviour:
   - {fileID: 87194399}
   Foish: {fileID: 4300504014963721100, guid: 10ef52a73788df748b45b5a639c2cc5d, type: 3}
   allFoish: []
-  predator: {fileID: 0}
+  predator: {fileID: 2138546796}
   timeToChangeDir: 10
   timePassed: 10
   numOfFoish: 10
@@ -10008,12 +10007,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linearVelocityMagnitude: 8
-  queryRadius: 100
   separationFactor: 9
   closeUpFactor: 16
   alignmentFactor: 11
   pathFactor: 10
-  predatorFactor: 1
+  predatorFactor: 34.3
   distToPredator: 0
   posDiff: 1
   directionsArray:
@@ -10023,7 +10021,7 @@ MonoBehaviour:
   - {fileID: 1335203711}
   Foish: {fileID: 4300504014963721100, guid: 10ef52a73788df748b45b5a639c2cc5d, type: 3}
   allFoish: []
-  predator: {fileID: 0}
+  predator: {fileID: 2138546796}
   timeToChangeDir: 10
   timePassed: 10
   numOfFoish: 15
@@ -16596,7 +16594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1419189349
 Transform:
   m_ObjectHideFlags: 0
@@ -19489,12 +19487,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linearVelocityMagnitude: 8
-  queryRadius: 100
   separationFactor: 9
   closeUpFactor: 16
   alignmentFactor: 11
   pathFactor: 10
-  predatorFactor: 1
+  predatorFactor: 27.4
   distToPredator: 0
   posDiff: 1
   directionsArray:
@@ -19506,7 +19503,7 @@ MonoBehaviour:
   - {fileID: 225832877}
   Foish: {fileID: 4300504014963721100, guid: 10ef52a73788df748b45b5a639c2cc5d, type: 3}
   allFoish: []
-  predator: {fileID: 0}
+  predator: {fileID: 2138546796}
   timeToChangeDir: 10
   timePassed: 10
   numOfFoish: 7
@@ -19723,12 +19720,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linearVelocityMagnitude: 8
-  queryRadius: 100
   separationFactor: 9
   closeUpFactor: 16
   alignmentFactor: 11
   pathFactor: 10
-  predatorFactor: 1
+  predatorFactor: 25.3
   distToPredator: 0
   posDiff: 1
   directionsArray:
@@ -19739,7 +19735,7 @@ MonoBehaviour:
   - {fileID: 533001348}
   Foish: {fileID: 4300504014963721100, guid: 10ef52a73788df748b45b5a639c2cc5d, type: 3}
   allFoish: []
-  predator: {fileID: 0}
+  predator: {fileID: 2138546796}
   timeToChangeDir: 10
   timePassed: 10
   numOfFoish: 8

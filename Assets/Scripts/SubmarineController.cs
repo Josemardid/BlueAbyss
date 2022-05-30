@@ -29,8 +29,17 @@ public class SubmarineController : MonoBehaviour
     private bool key2;
     private bool key3;
     private bool key4;
+    private bool keySpace;
+
+    public Quaternion desiredRotation = Quaternion.Euler(-90,0,0);
+
+    private bool currentlyCorrecting=false;
+    private bool submarineStopped=false;
 
     private float timerBullet = 0f;
+    private float totalTimeToCorrect = 3.0f;
+    public float timeToCorrect = 0;
+    public float SlerpTime = 0;
 
     private int pearlsCollected = 0;
     private int pearlsToCollect = 0;
@@ -129,6 +138,7 @@ public class SubmarineController : MonoBehaviour
         key2 = Input.GetKey(KeyCode.Alpha2);
         key3 = Input.GetKey(KeyCode.Alpha3);
         key4 = Input.GetKey(KeyCode.Alpha4);
+        keySpace = Input.GetKey(KeyCode.Space);
 //SHit ya lo siento
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -164,73 +174,119 @@ public class SubmarineController : MonoBehaviour
 
     private void UpdateMovement(float dt)
     {
-        if (keyW)
+        if (!currentlyCorrecting)
         {
-            FwdRg.AddForce(FwdRg.transform.forward.normalized * -accelMultiplier, ForceMode.Force);
+            if (keyW)
+            {
+                FwdRg.AddForce(FwdRg.transform.forward.normalized * -accelMultiplier, ForceMode.Force);
 
-        }
+            }
 
-        if (keyS)
-        {
-            BackwRg.AddForce(BackwRg.transform.forward.normalized * accelMultiplier, ForceMode.Force);
+            if (keyS)
+            {
+                BackwRg.AddForce(BackwRg.transform.forward.normalized * accelMultiplier, ForceMode.Force);
             
-        }//Palante patras
+            }//Palante patras
 
-        if (keyQ)
-        {
-            propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
-            propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
+            if (keyQ)
+            {
+                propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
+                propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
 
-        }
+            }
 
-        if (keyE)
-        {
-            propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
-            propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
+            if (keyE)
+            {
+                propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * accelRotationMultiplier, ForceMode.Force);
+                propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * -accelRotationMultiplier, ForceMode.Force);
 
-        }//Rotacion momentazgo
+            }//Rotacion momentazgo
 
-        if (keyA)
-        {
-            propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * -accelMultiplier, ForceMode.Force);
-            propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * -accelMultiplier, ForceMode.Force);
-        }
+            if (keyA)
+            {
+                propRightUpRg.AddForce(propRightUpRg.transform.right.normalized * -accelMultiplier, ForceMode.Force);
+                propRightDownRg.AddForce(propRightDownRg.transform.right.normalized * -accelMultiplier, ForceMode.Force);
+            }
 
-        if (keyD)
-        {
-            propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * accelMultiplier, ForceMode.Force);
-            propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * accelMultiplier, ForceMode.Force);
+            if (keyD)
+            {
+                propLeftDownRg.AddForce(propLeftDownRg.transform.right.normalized * accelMultiplier, ForceMode.Force);
+                propLeftUpRg.AddForce(propLeftUpRg.transform.right.normalized * accelMultiplier, ForceMode.Force);
 
-        }//Movimiento lateral
+            }//Movimiento lateral
 
-        if (key1)
-        {
-            propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
-            propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
-        }
+            if (key1)
+            {
+                propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
+                propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
+            }
 
-        if (key2)
-        {
-            propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
-            propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
+            if (key2)
+            {
+                propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
+                propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
 
-        }//Subida y bajada
+            }//Subida y bajada
 
 
-        if (key3)
-        {
-            propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
-            propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
+            if (key3)
+            {
+                propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
+                propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
             
+            }
+
+            if (key4)
+            {
+                propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
+                propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
+
+            }//Cabeceo re duro
+            if (keySpace)
+            {
+                currentlyCorrecting = true;
+            }
         }
-
-        if (key4)
+        else
         {
-            propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
-            propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
+            if (!submarineStopped)
+            {
+                submarineStopped = true;
+                submarineRg.velocity = Vector3.zero;
+                submarineRg.angularVelocity = Vector3.zero; 
+                FwdRg.velocity = Vector3.zero;
+                FwdRg.angularVelocity = Vector3.zero;
+                BackwRg.velocity = Vector3.zero;
+                BackwRg.angularVelocity = Vector3.zero;
+                propLeftUpRg.velocity = Vector3.zero;
+                propLeftUpRg.angularVelocity = Vector3.zero;
+                propLeftDownRg.velocity = Vector3.zero;
+                propLeftDownRg.angularVelocity = Vector3.zero;
+                propRightUpRg.velocity = Vector3.zero;
+                propRightUpRg.angularVelocity = Vector3.zero;
+                propRightDownRg.velocity = Vector3.zero;
+                propRightDownRg.angularVelocity = Vector3.zero;
+                propUpFrontRg.velocity = Vector3.zero;
+                propUpFrontRg.angularVelocity = Vector3.zero;
+                propUpRearRg.velocity = Vector3.zero;
+                propUpRearRg.angularVelocity = Vector3.zero;
+                propDownFrontRg.velocity = Vector3.zero;
+                propDownFrontRg.angularVelocity = Vector3.zero;
+                propDownRearRg.velocity = Vector3.zero;
+                propDownRearRg.angularVelocity = Vector3.zero;
+            }
 
-        }//Cabeceo re duro
-
+            timeToCorrect += dt;
+            SlerpTime = timeToCorrect / totalTimeToCorrect;
+            Quaternion.Slerp(submarine.transform.rotation,desiredRotation, SlerpTime);
+            if (SlerpTime >= 1)
+            {
+                SlerpTime = 0;
+                timeToCorrect = 0;
+                currentlyCorrecting = false;
+                submarineStopped = false;
+            }
+        }
 
 
     }

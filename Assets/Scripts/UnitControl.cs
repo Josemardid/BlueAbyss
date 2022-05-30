@@ -14,8 +14,7 @@ public class UnitControl : MonoBehaviour
 
     public float pathFactor = 1.0f;
     public float predatorFactor;
-
-    public float queryRadius = 100.0f;
+    int countIndividuals = 0;
 
     public GameObject[] directionsArray;
     public GameObject predator;
@@ -67,20 +66,6 @@ public class UnitControl : MonoBehaviour
     {
         Vector3 positionAverage = Vector3.zero;
         Vector3 directionAlignment = Vector3.forward;
-        int countIndividuals = 0;
-
-        Collider[] colliders = Physics.OverlapSphere( transform.position, queryRadius );
-        foreach ( Collider collider in colliders )
-        {
-            if ( collider.gameObject != gameObject &&
-                ( collider.transform.position - transform.position ).magnitude <= queryRadius &&
-                collider.GetComponent<UnitControl>() != null )
-            {
-            ++countIndividuals;
-            positionAverage += collider.transform.position;
-            directionAlignment += collider.transform.forward;
-            }
-        }
         if ( countIndividuals > 0 )
         {
             positionAverage /= countIndividuals;
@@ -90,7 +75,16 @@ public class UnitControl : MonoBehaviour
             Vector3 directionCloseUp = -directionSeparation;
             Vector3 directionToKelp= directionsArray[currentDirection].transform.position - this.transform.position;
             Quaternion totalRotation;
-            totalRotation = Quaternion.FromToRotation(transform.forward, separationFactor * directionSeparation + closeUpFactor * directionCloseUp + alignmentFactor * directionAlignment + directionToKelp * pathFactor);
+            if ((predator.transform.position - this.transform.position).magnitude < 10)
+            {
+                Debug.Log("Dentro");
+                Vector3 directionToPredator = -(predator.transform.position - this.transform.position);
+                totalRotation = Quaternion.FromToRotation(transform.forward, separationFactor * directionSeparation + closeUpFactor * directionCloseUp + alignmentFactor * directionAlignment + directionToKelp * pathFactor+ directionToPredator * predatorFactor);
+            }
+            else
+            {
+                totalRotation = Quaternion.FromToRotation(transform.forward, separationFactor * directionSeparation + closeUpFactor * directionCloseUp + alignmentFactor * directionAlignment + directionToKelp * pathFactor);
+            }
             transform.rotation = Quaternion.Slerp(transform.rotation, totalRotation * transform.rotation, Time.deltaTime );
         }
     }
@@ -121,7 +115,7 @@ public class UnitControl : MonoBehaviour
         }
         return inDirection;
     }
-    public void SetParameters(float linearVelocityMagnitudePassed,float separationFactorPassed,float closeUpFactorPassed,float alignmentFactorPassed, float pathFactorPassed, float predatorFactorPassed,float queryRadiusPassed,GameObject[] directionsArrayPassed, float posDiffPassed, GameObject predatorPassed,float distToPredatorPassed)
+    public void SetParameters(float linearVelocityMagnitudePassed,float separationFactorPassed,float closeUpFactorPassed,float alignmentFactorPassed, float pathFactorPassed, float predatorFactorPassed,int countIndividualsPased,GameObject[] directionsArrayPassed, float posDiffPassed, GameObject predatorPassed,float distToPredatorPassed)
     {
         linearVelocityMagnitude = linearVelocityMagnitudePassed;
         separationFactor = separationFactorPassed;
@@ -129,7 +123,7 @@ public class UnitControl : MonoBehaviour
         alignmentFactor = alignmentFactorPassed;
         pathFactor = pathFactorPassed;
         predatorFactor = predatorFactorPassed;
-        queryRadius = queryRadiusPassed;
+        countIndividuals = countIndividualsPased;
         directionsArray = directionsArrayPassed;
         foishDirection = directionsArray[0].transform;
         posDiff = posDiffPassed;

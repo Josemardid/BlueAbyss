@@ -7,8 +7,6 @@ public class FoishManager : MonoBehaviour
     [Range(0.0f, 100.0f)]
     public float linearVelocityMagnitude = 10.0f;
 
-    [Range(0.0f, 100.0f)]
-    public float queryRadius = 100.0f;
 
     [Range(0.0f, 100.0f)]
     public float separationFactor = 1.0f;
@@ -90,7 +88,7 @@ public class FoishManager : MonoBehaviour
         for(int i = 0; i < numOfFoish; i++)
         {
             GameObject thisFoish=Object.Instantiate(Foish, this.transform);
-            thisFoish.GetComponent<UnitControl>().SetParameters(linearVelocityMagnitude,separationFactor,closeUpFactor,alignmentFactor,pathFactor,predatorFactor,queryRadius,directionsArray,posDiff,predator, distToPredator);
+            thisFoish.GetComponent<UnitControl>().SetParameters(linearVelocityMagnitude,separationFactor,closeUpFactor,alignmentFactor,pathFactor,predatorFactor, numOfFoish, directionsArray,posDiff,predator, distToPredator);
             thisFoish.transform.position += new Vector3(Random.Range(-posDiff, posDiff), Random.Range(-posDiff, posDiff), Random.Range(-posDiff, posDiff));
             allFoish[i] = thisFoish;
         }
