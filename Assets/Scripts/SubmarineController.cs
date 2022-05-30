@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SubmarineController : MonoBehaviour
 {
     #region Private Attributes
-    private Rigidbody submarineRg;
+    public Rigidbody submarineRg;
     private Rigidbody FwdRg;
     private Rigidbody BackwRg;
     private Rigidbody propLeftUpRg;//estan puestos segun su posicion en el submarino

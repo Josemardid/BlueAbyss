@@ -5,11 +5,16 @@ using UnityEngine;
 public class EddyController : MonoBehaviour
 {
     #region Private Attributes
+
+
+
     #endregion
 
     #region Public Attributes
     public float forceModule;
     public Transform zeroPosition;
+
+    public string axis;//Siempre con MAYUSCULAS
 
 #endregion
 
@@ -29,15 +34,46 @@ public class EddyController : MonoBehaviour
 
     #region HumanMade Methods
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerStay(Collider collision)
     {
         if(collision.gameObject.tag == "Player")
         {
-            float diff = collision.gameObject.transform.position.y - zeroPosition.position.y;
+            float diff = 0;
+            Vector3 forceDir = new Vector3(0,0,0);
 
-            Debug.Log("d " + diff);
+            if (axis == "X")
+            {
+                diff = collision.gameObject.transform.position.x - zeroPosition.position.x;
+            }
 
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0,-1,0) * forceModule * (1 - (diff * 0.1f)), ForceMode.Impulse);
+            if (axis == "-X" )
+            {
+                diff = -(collision.gameObject.transform.position.x - zeroPosition.position.x);
+                
+            }
+
+            if (axis == "Y")
+            {
+                diff = collision.gameObject.transform.position.y - zeroPosition.position.y;
+            }
+            if (axis == "-Y")
+            {
+                diff = -(collision.gameObject.transform.position.y - zeroPosition.position.y);
+            }
+            if (axis == "Z")
+            {
+                diff = collision.gameObject.transform.position.z - zeroPosition.position.z;
+            }
+            if (axis == "-Z")
+            {
+                diff = -(collision.gameObject.transform.position.z - zeroPosition.position.z);
+            }
+
+            forceDir = (this.gameObject.transform.position - zeroPosition.position).normalized;
+
+            Debug.Log("d " + (1 / (diff * 0.1f)) + " // dir " + forceDir);
+
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(forceDir * forceModule * (1/(diff * 0.1f)), ForceMode.Force);
 
         }
     }

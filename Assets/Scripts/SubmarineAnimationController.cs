@@ -43,8 +43,12 @@ public class SubmarineAnimationController : MonoBehaviour
 
     public void PropellerMovement(float dt)
     {
+        Vector3 subVel = new Vector3(submarine.GetComponent<SubmarineController>().submarineRg.velocity.x, 0, submarine.GetComponent<SubmarineController>().submarineRg.velocity.z);
 
-        propeller.transform.Rotate(0,0, dt * propellerSpeed);
+        float multiplier = subVel.magnitude;
+        //Debug.Log(multiplier);
+    //public GameObject propBackw;
+    propeller.transform.Rotate(0,0, dt*multiplier * propellerSpeed);
     }
 
     public void PeriscopeMovement(float dt)
