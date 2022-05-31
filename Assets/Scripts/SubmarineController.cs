@@ -34,13 +34,13 @@ public class SubmarineController : MonoBehaviour
     private Quaternion desiredRotation;// = Quaternion.Euler(-90,0,0);
     private Quaternion initialRotation;
 
-    private bool currentlyCorrecting=false;
-    private bool submarineStopped=false;
+    public bool currentlyCorrecting=false;
+    public bool submarineStopped=false;
 
     private float timerBullet = 0f;
     private float totalTimeToCorrect = 3.0f;
-    private float timeToCorrect = 0;
-    private float SlerpTime = 0;
+    public float timeToCorrect = 0;
+    public float SlerpTime = 0;
 
     private int pearlsCollected = 0;
     private int pearlsToCollect = 0;
@@ -120,7 +120,15 @@ public class SubmarineController : MonoBehaviour
         UpdateInputMovement();
 
         UpdateFire(Time.deltaTime);
+        if (SlerpTime >= 1)
+        {
+            SlerpTime = 0;
+            timeToCorrect = 0;
+            currentlyCorrecting = false;
+            submarineStopped = false;
+            audio.Stop("Emergency");
 
+        }
         //Debug.Log("Pearls: " + pearlsCollected);
     }
 
@@ -314,15 +322,7 @@ public class SubmarineController : MonoBehaviour
                 timeChecker = 0;
             }
 
-            if (SlerpTime >= 1)
-            {
-                SlerpTime = 0;
-                timeToCorrect = 0;
-                currentlyCorrecting = false;
-                submarineStopped = false;
-                audio.Stop("Emergency");
-             
-            }
+            
 
            
         }
