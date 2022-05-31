@@ -119,9 +119,6 @@ public class ArmControllerIK : MonoBehaviour
                 Vector3 goalDirection = target.transform.position - armParts[i].position;
                 Quaternion goalOrientation = Quaternion.FromToRotation(currentDir, goalDirection) * armParts[i].rotation;
                 Quaternion newOrientation = Quaternion.Slerp(armParts[i].rotation, goalOrientation, 1.0f * dt);
-            
-            
-
 
             if (armParts[i].parent == null || transform.GetComponent<ArmAttributes>() == null || Vector3.Angle(armParts[i].parent.transform.forward, newOrientation * -Vector3.forward) < transform.GetComponent<ArmAttributes>().angleLimit)
             {

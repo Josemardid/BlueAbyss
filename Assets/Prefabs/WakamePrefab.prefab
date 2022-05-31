@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 2
-  diffMove: 1
+  diffMove: 3
 --- !u!114 &3197107184104118629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d9ddcb26f0a1b4795fd43b1ce31450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k: 45
+  k: 40
   moveObj: {fileID: 3197107185986977023}
 --- !u!1 &3197107184897620717
 GameObject:
@@ -242,8 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d845361240537d84f86324c0247eaf2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDiffMovement: 1
-  speed: 4.5
+  maxDiffMovement: 3
+  speed: 7
 --- !u!114 &3197107184897620707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d9ddcb26f0a1b4795fd43b1ce31450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k: 45
+  k: 120
   moveObj: {fileID: 3197107185273346202}
 --- !u!1 &3197107185273346202
 GameObject:
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d9ddcb26f0a1b4795fd43b1ce31450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k: 45
+  k: 80
   moveObj: {fileID: 3197107185333304917}
 --- !u!114 &3197107185273346200
 MonoBehaviour:
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 2
-  diffMove: 1
+  diffMove: 3
 --- !u!1 &3197107185333304917
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d9ddcb26f0a1b4795fd43b1ce31450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k: 45
+  k: 50
   moveObj: {fileID: 3197107184104118631}
 --- !u!114 &3197107185333304907
 MonoBehaviour:
@@ -541,7 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 2
-  diffMove: 1
+  diffMove: 3
 --- !u!1 &3197107185679681081
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,5 +702,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 255983b769de8664f87bfa99ae79cb81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 2
-  diffMove: 1
+  maxSpeed: 5
+  diffMove: 3

@@ -9,6 +9,7 @@ public class SubmarineAnimationController : MonoBehaviour
     private GameObject targetToSearch;
     private float timer = 0;
    
+    public bool canSearch = true;
 
     #endregion
 
@@ -19,10 +20,14 @@ public class SubmarineAnimationController : MonoBehaviour
     public GameObject periscope;
     public GameObject propeller;
     public GameObject submarine;
+    public GameObject submarineCapsule;
 
-#endregion
+    public float maxRotX = 5;
+    public float maxRotZ = 5;
 
-#region MonoBehaviour Methods
+    #endregion
+
+    #region MonoBehaviour Methods
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +40,27 @@ public class SubmarineAnimationController : MonoBehaviour
         float dt = Time.deltaTime;
 
         PropellerMovement(dt);
-        PeriscopeMovement(dt);
+
+        if (canSearch)
+        {
+            PeriscopeMovement(dt);
+        }
+
+        //Debug.Log("rot " + submarineCapsule.transform.rotation.eulerAngles);
+
+        //if(submarineCapsule.transform.rotation.eulerAngles.x < maxRotX + submarine.GetComponent<SubmarineController>().initialRotation.eulerAngles.x
+        //    || submarineCapsule.transform.rotation.eulerAngles.z < maxRotZ + submarine.GetComponent<SubmarineController>().initialRotation.eulerAngles.z)/* ||
+        //    submarineCapsule.transform.rotation.eulerAngles.x > maxRotX - submarine.GetComponent<SubmarineController>().initialRotation.eulerAngles.x ||
+        //    submarineCapsule.transform.rotation.eulerAngles.z > maxRotZ - submarine.GetComponent<SubmarineController>().initialRotation.eulerAngles.z)*/
+        //{
+        //    canSearch = false;
+        //}
+        //else
+        //{
+        //    canSearch = true;
+        //}
+        
+        
     }
 #endregion
 
@@ -62,8 +87,9 @@ public class SubmarineAnimationController : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         periscope.transform.rotation = Quaternion.Slerp(periscope.transform.rotation, rotation, dt);
 
+        //rotation.eulerAngles = new Vector3(submarineCapsule.transform.rotation.x, periscope.transform.rotation.y, submarineCapsule.transform.rotation.z);
 
-        
+        //periscope.transform.rotation = rotation;
     }
 
 

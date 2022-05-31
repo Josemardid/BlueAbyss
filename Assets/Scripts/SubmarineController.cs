@@ -33,7 +33,7 @@ public class SubmarineController : MonoBehaviour
     private bool keySpace;
 
     private Quaternion desiredRotation;// = Quaternion.Euler(-90,0,0);
-    private Quaternion initialRotation;
+    
 
     public bool currentlyCorrecting=false;
     public bool submarineStopped=false;
@@ -50,6 +50,12 @@ public class SubmarineController : MonoBehaviour
     private AudioManager audioM;
 
     private float timerEmergency = 0.2f;
+
+    private float blinkFadeInTime = 0.2f;
+    private float blinkStayTime = 0.5f;
+    private float blinkFadeOutTime = 0.4f;
+    private Color originalColor;
+    private float timeChecker = 0.0f;
 
     #endregion
 
@@ -79,17 +85,13 @@ public class SubmarineController : MonoBehaviour
     public Text ScoreText;
     public Text EmergencyText;
 
-    private float blinkFadeInTime = 0.2f;
-    private float blinkStayTime = 0.5f;
-    private float blinkFadeOutTime = 0.4f;
-    private Color originalColor;
-    private float timeChecker=0.0f;
 
-   
+    public Quaternion initialRotation;
 
-#endregion 
 
-#region MonoBehaviour Methods
+    #endregion
+
+    #region MonoBehaviour Methods
     // Start is called before the first frame update
     void Start()
     {
@@ -123,7 +125,7 @@ public class SubmarineController : MonoBehaviour
         if (!areYouWining())
         {
 
-            UpdateInputMovement();
+            UpdateInputMovement(Time.deltaTime);
 
             UpdateFire(Time.deltaTime);
             if (SlerpTime >= 1)
@@ -163,7 +165,7 @@ public class SubmarineController : MonoBehaviour
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
     }
 
-    private void UpdateInputMovement()
+    private void UpdateInputMovement(float dt)
     {
         keyW = Input.GetKey(KeyCode.W);
         keyA = Input.GetKey(KeyCode.A);
@@ -197,6 +199,60 @@ public class SubmarineController : MonoBehaviour
             }
 
         }
+
+
+
+        if (keySpace)
+        {
+            currentlyCorrecting = true;
+            initialRotation = submarine.transform.rotation;
+            EmergencyText.gameObject.SetActive(true);
+            audioM.Play("Emergency");
+
+        }
+
+       if(currentlyCorrecting){
+
+
+            EmergencyText.text = "EMERGENCY ROTATION";
+
+            //Debug.Log("Correcting " + submarine.transform.rotation + " Desire " + desiredRotation);
+
+            if (!submarineStopped)
+            {
+                StopVelocitySubmarine();
+            }
+
+            timeToCorrect += dt;
+            timeChecker += dt;
+
+            SlerpTime = timeToCorrect / totalTimeToCorrect;
+
+            submarine.transform.rotation = Quaternion.Slerp(initialRotation, desiredRotation, SlerpTime);
+
+            //Fading of the text
+            if (timeChecker < blinkFadeInTime)
+            {
+                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, timeChecker / blinkFadeInTime);
+            }
+            else if (timeChecker < blinkFadeInTime + blinkStayTime)
+            {
+                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1);
+            }
+            else if (timeChecker < blinkFadeInTime + blinkStayTime + blinkFadeOutTime)
+            {
+                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, timeChecker - (blinkFadeInTime + blinkStayTime) / blinkFadeOutTime);
+            }
+            else
+            {
+                timeChecker = 0;
+            }
+
+
+
+
+        }
+
     }
 
     bool areYouWining()
@@ -293,58 +349,11 @@ public class SubmarineController : MonoBehaviour
 
             //}//Cabeceo re duro
 
-            
-            if (keySpace)
-            {
-                currentlyCorrecting = true;
-                initialRotation = submarine.transform.rotation;
-                EmergencyText.gameObject.SetActive(true);
-                audioM.Play("Emergency");
-               
-            }
+
+
         }
-        else
-        {
-             
 
-            EmergencyText.text = "EMERGENCY ROTATION";
-
-            //Debug.Log("Correcting " + submarine.transform.rotation + " Desire " + desiredRotation);
-
-            if (!submarineStopped)
-            {
-                StopVelocitySubmarine();
-            }
-
-            timeToCorrect += dt;
-            timeChecker += dt;
-
-            SlerpTime = timeToCorrect / totalTimeToCorrect;
-
-            submarine.transform.rotation = Quaternion.Slerp(initialRotation,desiredRotation, SlerpTime);
-
-            //Fading of the text
-            if (timeChecker < blinkFadeInTime)
-            {
-                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, timeChecker / blinkFadeInTime);
-            }
-            else if (timeChecker < blinkFadeInTime + blinkStayTime)
-            {
-                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1);
-            }
-            else if (timeChecker < blinkFadeInTime + blinkStayTime + blinkFadeOutTime)
-            {
-                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, timeChecker - (blinkFadeInTime + blinkStayTime) / blinkFadeOutTime);
-            }
-            else
-            {
-                timeChecker = 0;
-            }
-
-            
-
-           
-        }
+       
 
 
     }

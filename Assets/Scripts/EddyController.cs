@@ -70,7 +70,7 @@ public class EddyController : MonoBehaviour
 
             forceDir = (this.gameObject.transform.position - zeroPosition.position).normalized;
 
-            Debug.Log("d " + (1 / (diff * 0.1f)) + " // dir " + forceDir);
+            //Debug.Log("d " + (1 / (diff * 0.1f)) + " // dir " + forceDir);
 
             collision.gameObject.GetComponent<Rigidbody>().AddForce(forceDir * forceModule * (1/(diff * 0.1f)), ForceMode.Force);
 
