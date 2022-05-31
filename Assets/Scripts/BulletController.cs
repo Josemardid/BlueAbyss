@@ -14,7 +14,7 @@ public class BulletController : MonoBehaviour
     #region Public Attributes
     public float timeAlive = 5f;
     public GameObject pearlPrefab;
-    
+    public GameObject submarine;
 
 #endregion
 
@@ -24,7 +24,7 @@ public class BulletController : MonoBehaviour
     {
         timeToLive = timeAlive;
         timer = timeAlive;
-
+        submarine = GameObject.FindGameObjectWithTag("Player");
         audioM = FindObjectOfType<AudioManager>();
     }
 
@@ -61,9 +61,9 @@ public class BulletController : MonoBehaviour
         {
             
             Instantiate<GameObject>(pearlPrefab, collision.gameObject.transform.position, Quaternion.identity);
+            submarine.GetComponent<SubmarineController>().AddPearToCollect();
             Destroy(collision.gameObject);
             EndBullet();
-
             onePearl = false;// para que salga dos veces
             audioM.Play("Target");
         }

@@ -101,14 +101,12 @@ MonoBehaviour:
   alignmentFactor: 1
   pathFactor: 1
   predatorFactor: 0
-  queryRadius: 100
   directionsArray: []
   predator: {fileID: 0}
   distToPredator: 0
   foishDirection: {fileID: 0}
   posDiff: 10
-  timeToChangeDir: 10
-  timePassed: 10
+  currentDirection: 0
 --- !u!135 &1692382039410770835
 SphereCollider:
   m_ObjectHideFlags: 0

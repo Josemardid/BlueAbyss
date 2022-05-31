@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SubmarineController : MonoBehaviour
@@ -42,13 +43,13 @@ public class SubmarineController : MonoBehaviour
     public float timeToCorrect = 0;
     public float SlerpTime = 0;
 
+    private int pearlsNeededToWin = 23;//dianas plus pearls in screen 
     private int pearlsCollected = 0;
     private int pearlsToCollect = 0;
 
-    private AudioManager audio;
+    private AudioManager audioM;
 
     private float timerEmergency = 0.2f;
-    private float timerEmergencyShow = 0.2f;
 
     #endregion
 
@@ -64,6 +65,7 @@ public class SubmarineController : MonoBehaviour
     public GameObject propUpRear;
     public GameObject propDownFront;
     public GameObject propDownRear;
+    public GameObject finalPanel;
 
     public Transform placeToShoot;
 
@@ -91,6 +93,7 @@ public class SubmarineController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        finalPanel.SetActive(false);
         submarineRg = submarine.GetComponent<Rigidbody>();
         FwdRg = propFwd.GetComponent<Rigidbody>();
         BackwRg = propBackw.GetComponent<Rigidbody>();
@@ -108,7 +111,7 @@ public class SubmarineController : MonoBehaviour
 
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
 
-        audio = FindObjectOfType<AudioManager>();
+        audioM = FindObjectOfType<AudioManager>();
 
         desiredRotation = submarine.transform.rotation;
 
@@ -117,17 +120,21 @@ public class SubmarineController : MonoBehaviour
 
     private void Update()
     {
-        UpdateInputMovement();
-
-        UpdateFire(Time.deltaTime);
-        if (SlerpTime >= 1)
+        if (!areYouWining())
         {
-            SlerpTime = 0;
-            timeToCorrect = 0;
-            currentlyCorrecting = false;
-            submarineStopped = false;
-            audio.Stop("Emergency");
 
+            UpdateInputMovement();
+
+            UpdateFire(Time.deltaTime);
+            if (SlerpTime >= 1)
+            {
+                SlerpTime = 0;
+                timeToCorrect = 0;
+                currentlyCorrecting = false;
+                submarineStopped = false;
+                audioM.Stop("Emergency");
+
+            }
         }
         //Debug.Log("Pearls: " + pearlsCollected);
     }
@@ -139,10 +146,6 @@ public class SubmarineController : MonoBehaviour
 
         UpdateMovement(dt);
 
-        if (EmergencyText.gameObject.activeInHierarchy)
-        {
-            EmergencyMoment(dt);
-        }
         
     }
 #endregion
@@ -154,7 +157,11 @@ public class SubmarineController : MonoBehaviour
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
     }
 
-
+    public void AddPearToCollect()
+    {
+        pearlsToCollect++;
+        ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
+    }
 
     private void UpdateInputMovement()
     {
@@ -175,7 +182,7 @@ public class SubmarineController : MonoBehaviour
         {
             if (Arm.GetComponent<ArmControllerIK>().isSearching)
             {
-                audio.Play("Arm");
+                audioM.Play("Arm");
                 Arm.GetComponent<ArmControllerIK>().isSearching = false;
             }
             else
@@ -184,7 +191,7 @@ public class SubmarineController : MonoBehaviour
                 //{
                 //    Arm.GetComponent<ArmControllerIK>().toDestroy.SetActive(false);
                 //}
-                audio.Play("Arm");
+                audioM.Play("Arm");
                 Arm.GetComponent<ArmControllerIK>().SearchTarget();
                 Arm.GetComponent<ArmControllerIK>().isSearching = true;
             }
@@ -192,12 +199,24 @@ public class SubmarineController : MonoBehaviour
         }
     }
 
-
+    bool areYouWining()
+    {
+        bool yes = false;
+        if (pearlsNeededToWin==pearlsCollected)
+        {
+            if (!finalPanel.activeInHierarchy)
+            {
+                finalPanel.SetActive(true);
+                yes = true;
+            }
+        }
+        return yes;
+    }
     public void addPearlCollected()
     {
         pearlsCollected++;
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
-        audio.Play("Arm");
+        audioM.Play("Arm");
         Arm.GetComponent<ArmControllerIK>().hasSoundedYet = false;
     }
 
@@ -280,7 +299,7 @@ public class SubmarineController : MonoBehaviour
                 currentlyCorrecting = true;
                 initialRotation = submarine.transform.rotation;
                 EmergencyText.gameObject.SetActive(true);
-                audio.Play("Emergency");
+                audioM.Play("Emergency");
                
             }
         }
@@ -346,23 +365,9 @@ public class SubmarineController : MonoBehaviour
 
             timerBullet = 0;
             //Disparar
-            audio.Play("Torpedo");
+            audioM.Play("Torpedo");
         }
 
-    }
-
-    public void EmergencyMoment(float dt)
-    {
-        timerEmergency -= dt;
-        
-
-        if(timerEmergency <= 0)
-        {
-            EmergencyText.text = "EMERGENCY ROTATION";
-            timerEmergencyShow -= dt;
-        }
-
-        
     }
 
     public void StopVelocitySubmarine(){

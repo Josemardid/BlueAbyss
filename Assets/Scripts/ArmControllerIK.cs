@@ -8,7 +8,7 @@ public class ArmControllerIK : MonoBehaviour
     private GameObject target;
     private GameObject[] allPearls;
 
-    private AudioManager audio;
+    private AudioManager audioM;
   
     #endregion
 
@@ -34,7 +34,7 @@ public class ArmControllerIK : MonoBehaviour
         submarine.GetComponent<SubmarineController>().setAllPearls(allPearls.Length);
         //Podriamos inicializar aqui el brazo pero pa que, lo importante es que sean hijos uno de otros
 
-        audio = FindObjectOfType<AudioManager>();
+        audioM = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
@@ -136,7 +136,7 @@ public class ArmControllerIK : MonoBehaviour
     {
         if (!hasSoundedYet)
         {
-            audio.Play("Arm");
+            audioM.Play("Arm");
             hasSoundedYet = true;
         }
     }

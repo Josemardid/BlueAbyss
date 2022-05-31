@@ -36,7 +36,7 @@ public class EddyController : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player1")
         {
             float diff = 0;
             Vector3 forceDir = new Vector3(0,0,0);
