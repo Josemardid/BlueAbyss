@@ -77,7 +77,13 @@ public class SubmarineController : MonoBehaviour
     public Text ScoreText;
     public Text EmergencyText;
 
+    private float blinkFadeInTime = 0.2f;
+    private float blinkStayTime = 0.5f;
+    private float blinkFadeOutTime = 0.4f;
+    private Color originalColor;
+    private float timeChecker=0.0f;
 
+   
 
 #endregion 
 
@@ -105,6 +111,8 @@ public class SubmarineController : MonoBehaviour
         audio = FindObjectOfType<AudioManager>();
 
         desiredRotation = submarine.transform.rotation;
+
+        originalColor = EmergencyText.color;
     }
 
     private void Update()
@@ -188,6 +196,7 @@ public class SubmarineController : MonoBehaviour
 
     private void UpdateMovement(float dt)
     {
+
         if (!currentlyCorrecting)
         {
             if (keyW)
@@ -256,15 +265,20 @@ public class SubmarineController : MonoBehaviour
             //    propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
 
             //}//Cabeceo re duro
+
+            
             if (keySpace)
             {
                 currentlyCorrecting = true;
                 initialRotation = submarine.transform.rotation;
                 EmergencyText.gameObject.SetActive(true);
+                audio.Play("Emergency");
+               
             }
         }
         else
         {
+             
 
             EmergencyText.text = "EMERGENCY ROTATION";
 
@@ -272,36 +286,33 @@ public class SubmarineController : MonoBehaviour
 
             if (!submarineStopped)
             {
-                submarineStopped = true;
-                submarineRg.velocity = Vector3.zero;
-                submarineRg.angularVelocity = Vector3.zero; 
-                FwdRg.velocity = Vector3.zero;
-                FwdRg.angularVelocity = Vector3.zero;
-                BackwRg.velocity = Vector3.zero;
-                BackwRg.angularVelocity = Vector3.zero;
-                propLeftUpRg.velocity = Vector3.zero;
-                propLeftUpRg.angularVelocity = Vector3.zero;
-                propLeftDownRg.velocity = Vector3.zero;
-                propLeftDownRg.angularVelocity = Vector3.zero;
-                propRightUpRg.velocity = Vector3.zero;
-                propRightUpRg.angularVelocity = Vector3.zero;
-                propRightDownRg.velocity = Vector3.zero;
-                propRightDownRg.angularVelocity = Vector3.zero;
-                propUpFrontRg.velocity = Vector3.zero;
-                propUpFrontRg.angularVelocity = Vector3.zero;
-                propUpRearRg.velocity = Vector3.zero;
-                propUpRearRg.angularVelocity = Vector3.zero;
-                propDownFrontRg.velocity = Vector3.zero;
-                propDownFrontRg.angularVelocity = Vector3.zero;
-                propDownRearRg.velocity = Vector3.zero;
-                propDownRearRg.angularVelocity = Vector3.zero;
+                StopVelocitySubmarine();
             }
 
             timeToCorrect += dt;
+            timeChecker += dt;
 
             SlerpTime = timeToCorrect / totalTimeToCorrect;
 
             submarine.transform.rotation = Quaternion.Slerp(initialRotation,desiredRotation, SlerpTime);
+
+            //Fading of the text
+            if (timeChecker < blinkFadeInTime)
+            {
+                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, timeChecker / blinkFadeInTime);
+            }
+            else if (timeChecker < blinkFadeInTime + blinkStayTime)
+            {
+                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1);
+            }
+            else if (timeChecker < blinkFadeInTime + blinkStayTime + blinkFadeOutTime)
+            {
+                EmergencyText.color = new Color(originalColor.r, originalColor.g, originalColor.b, timeChecker - (blinkFadeInTime + blinkStayTime) / blinkFadeOutTime);
+            }
+            else
+            {
+                timeChecker = 0;
+            }
 
             if (SlerpTime >= 1)
             {
@@ -309,7 +320,11 @@ public class SubmarineController : MonoBehaviour
                 timeToCorrect = 0;
                 currentlyCorrecting = false;
                 submarineStopped = false;
+                audio.Stop("Emergency");
+             
             }
+
+           
         }
 
 
@@ -350,7 +365,34 @@ public class SubmarineController : MonoBehaviour
         
     }
 
+    public void StopVelocitySubmarine(){
+        submarineStopped = true;
+        submarineRg.velocity = Vector3.zero;
+        submarineRg.angularVelocity = Vector3.zero;
+        FwdRg.velocity = Vector3.zero;
+        FwdRg.angularVelocity = Vector3.zero;
+        BackwRg.velocity = Vector3.zero;
+        BackwRg.angularVelocity = Vector3.zero;
+        propLeftUpRg.velocity = Vector3.zero;
+        propLeftUpRg.angularVelocity = Vector3.zero;
+        propLeftDownRg.velocity = Vector3.zero;
+        propLeftDownRg.angularVelocity = Vector3.zero;
+        propRightUpRg.velocity = Vector3.zero;
+        propRightUpRg.angularVelocity = Vector3.zero;
+        propRightDownRg.velocity = Vector3.zero;
+        propRightDownRg.angularVelocity = Vector3.zero;
+        propUpFrontRg.velocity = Vector3.zero;
+        propUpFrontRg.angularVelocity = Vector3.zero;
+        propUpRearRg.velocity = Vector3.zero;
+        propUpRearRg.angularVelocity = Vector3.zero;
+        propDownFrontRg.velocity = Vector3.zero;
+        propDownFrontRg.angularVelocity = Vector3.zero;
+        propDownRearRg.velocity = Vector3.zero;
+        propDownRearRg.angularVelocity = Vector3.zero;
 
-#endregion
+    }
+
+
+    #endregion
 
 }

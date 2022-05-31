@@ -11064,6 +11064,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Emergency
+    clip: {fileID: 8300000, guid: 5f0a168a1366e5c4d8779aa3243b9176, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!1 &1322682919
 GameObject:
   m_ObjectHideFlags: 0
