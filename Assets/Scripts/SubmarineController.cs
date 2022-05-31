@@ -25,26 +25,31 @@ public class SubmarineController : MonoBehaviour
     private bool keyD;
     private bool keyQ;
     private bool keyE;
-    private bool key1;
-    private bool key2;
+    private bool keyZ;
+    private bool keyX;
     private bool key3;
     private bool key4;
     private bool keySpace;
 
-    public Quaternion desiredRotation = Quaternion.Euler(-90,0,0);
+    private Quaternion desiredRotation;// = Quaternion.Euler(-90,0,0);
+    private Quaternion initialRotation;
 
     private bool currentlyCorrecting=false;
     private bool submarineStopped=false;
 
     private float timerBullet = 0f;
     private float totalTimeToCorrect = 3.0f;
-    public float timeToCorrect = 0;
-    public float SlerpTime = 0;
+    private float timeToCorrect = 0;
+    private float SlerpTime = 0;
 
     private int pearlsCollected = 0;
     private int pearlsToCollect = 0;
 
     private AudioManager audio;
+
+    private float timerEmergency = 0.2f;
+    private float timerEmergencyShow = 0.2f;
+
     #endregion
 
     #region Public Attributes
@@ -70,6 +75,7 @@ public class SubmarineController : MonoBehaviour
     public GameObject Arm;
 
     public Text ScoreText;
+    public Text EmergencyText;
 
 
 
@@ -97,6 +103,8 @@ public class SubmarineController : MonoBehaviour
         ScoreText.text = "Pearls: " + pearlsCollected + "/" + pearlsToCollect;
 
         audio = FindObjectOfType<AudioManager>();
+
+        desiredRotation = submarine.transform.rotation;
     }
 
     private void Update()
@@ -114,6 +122,12 @@ public class SubmarineController : MonoBehaviour
         float dt = Time.deltaTime;
 
         UpdateMovement(dt);
+
+        if (EmergencyText.gameObject.activeInHierarchy)
+        {
+            EmergencyMoment(dt);
+        }
+        
     }
 #endregion
 
@@ -134,11 +148,11 @@ public class SubmarineController : MonoBehaviour
         keyD = Input.GetKey(KeyCode.D);
         keyQ = Input.GetKey(KeyCode.Q);
         keyE = Input.GetKey(KeyCode.E);
-        key1 = Input.GetKey(KeyCode.Alpha1);
-        key2 = Input.GetKey(KeyCode.Alpha2);
+        keyZ = Input.GetKey(KeyCode.Z);
+        keyX = Input.GetKey(KeyCode.X);
         key3 = Input.GetKey(KeyCode.Alpha3);
         key4 = Input.GetKey(KeyCode.Alpha4);
-        keySpace = Input.GetKey(KeyCode.Space);
+        keySpace = Input.GetKeyDown(KeyCode.Space);
 //SHit ya lo siento
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -215,40 +229,47 @@ public class SubmarineController : MonoBehaviour
 
             }//Movimiento lateral
 
-            if (key1)
+            if (keyZ)
             {
                 propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
                 propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * accelMultiplier, ForceMode.Force);
             }
 
-            if (key2)
+            if (keyX)
             {
                 propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
                 propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * -accelMultiplier, ForceMode.Force);
 
             }//Subida y bajada
 
+            EmergencyText.gameObject.SetActive(false);
+            //if (key3)
+            //{
+            //    propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
+            //    propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
 
-            if (key3)
-            {
-                propUpFrontRg.AddForce(propUpFrontRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
-                propDownRearRg.AddForce(propDownRearRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
-            
-            }
+            //}
 
-            if (key4)
-            {
-                propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
-                propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
+            //if (key4)
+            //{
+            //    propDownFrontRg.AddForce(propDownFrontRg.transform.up.normalized * accelRotationMultiplier, ForceMode.Force);
+            //    propUpRearRg.AddForce(propUpRearRg.transform.up.normalized * -accelRotationMultiplier, ForceMode.Force);
 
-            }//Cabeceo re duro
+            //}//Cabeceo re duro
             if (keySpace)
             {
                 currentlyCorrecting = true;
+                initialRotation = submarine.transform.rotation;
+                EmergencyText.gameObject.SetActive(true);
             }
         }
         else
         {
+
+            EmergencyText.text = "EMERGENCY ROTATION";
+
+            //Debug.Log("Correcting " + submarine.transform.rotation + " Desire " + desiredRotation);
+
             if (!submarineStopped)
             {
                 submarineStopped = true;
@@ -277,8 +298,11 @@ public class SubmarineController : MonoBehaviour
             }
 
             timeToCorrect += dt;
+
             SlerpTime = timeToCorrect / totalTimeToCorrect;
-            Quaternion.Slerp(submarine.transform.rotation,desiredRotation, SlerpTime);
+
+            submarine.transform.rotation = Quaternion.Slerp(initialRotation,desiredRotation, SlerpTime);
+
             if (SlerpTime >= 1)
             {
                 SlerpTime = 0;
@@ -311,6 +335,22 @@ public class SubmarineController : MonoBehaviour
         }
 
     }
+
+    public void EmergencyMoment(float dt)
+    {
+        timerEmergency -= dt;
+        
+
+        if(timerEmergency <= 0)
+        {
+            EmergencyText.text = "EMERGENCY ROTATION";
+            timerEmergencyShow -= dt;
+        }
+
+        
+    }
+
+
 #endregion
 
 }

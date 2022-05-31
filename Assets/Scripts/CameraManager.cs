@@ -44,7 +44,7 @@ public class CameraManager : MonoBehaviour
         mainCamera.transform.position = cameraPosition[camIndex].position;
         mainCamera.transform.LookAt(this.gameObject.transform);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             ChangeCam();
         }

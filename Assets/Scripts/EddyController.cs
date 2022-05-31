@@ -51,7 +51,6 @@ public class EddyController : MonoBehaviour
                 diff = -(collision.gameObject.transform.position.x - zeroPosition.position.x);
                 
             }
-
             if (axis == "Y")
             {
                 diff = collision.gameObject.transform.position.y - zeroPosition.position.y;

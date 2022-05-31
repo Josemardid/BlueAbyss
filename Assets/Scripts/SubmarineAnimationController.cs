@@ -43,11 +43,8 @@ public class SubmarineAnimationController : MonoBehaviour
 
     public void PropellerMovement(float dt)
     {
-        Vector3 subVel = new Vector3(submarine.GetComponent<SubmarineController>().submarineRg.velocity.x, 0, submarine.GetComponent<SubmarineController>().submarineRg.velocity.z);
-
-        float multiplier = subVel.magnitude;
-        //Debug.Log(multiplier);
-    //public GameObject propBackw;
+    Vector3 subVel = new Vector3(submarine.GetComponent<SubmarineController>().submarineRg.velocity.x, 0, submarine.GetComponent<SubmarineController>().submarineRg.velocity.z);
+    float multiplier = subVel.magnitude;
     propeller.transform.Rotate(0,0, dt*multiplier * propellerSpeed);
     }
 
@@ -56,14 +53,15 @@ public class SubmarineAnimationController : MonoBehaviour
         timer += dt;
         if(timer > timeToRotate)
         {
-            SearchTarget();
-            
+            SearchTarget();            
             timer = 0;
         }
+
         Vector3 lookPos = targetToSearch.transform.position - periscope.transform.position;
         lookPos.y = 0;
         Quaternion rotation = Quaternion.LookRotation(lookPos);
         periscope.transform.rotation = Quaternion.Slerp(periscope.transform.rotation, rotation, dt);
+
 
         
     }
