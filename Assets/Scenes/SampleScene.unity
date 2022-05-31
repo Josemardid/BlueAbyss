@@ -1364,6 +1364,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velUp
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velDown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: maxDistance
+      value: 35
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
 --- !u!4 &192117263 stripped
@@ -1909,6 +1921,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velUp
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velDown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: maxDistance
+      value: 29
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
 --- !u!4 &324317161 stripped
@@ -2316,10 +2340,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 94661802}
     m_Modifications:
+    - target: {fileID: 673389414719013850, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
     - target: {fileID: 4490815215655809527, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
       propertyPath: m_LocalPosition.y
       value: 12.42
       objectReference: {fileID: 0}
+    - target: {fileID: 6113301206940328168, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
     - target: {fileID: 6793937676351455435, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
       propertyPath: m_Name
       value: JellyFish (1)
@@ -2367,6 +2399,14 @@ PrefabInstance:
     - target: {fileID: 6793937676351455444, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731819123188037467, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: maxDistance
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
@@ -3416,6 +3456,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velUp
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velDown
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: maxDistance
+      value: 33
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
 --- !u!4 &699527010 stripped
@@ -11487,6 +11539,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 94661802}
     m_Modifications:
+    - target: {fileID: 673389414719013850, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
+    - target: {fileID: 6113301206940328168, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
     - target: {fileID: 6793937676351455435, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
       propertyPath: m_Name
       value: JellyFish
@@ -11534,6 +11594,18 @@ PrefabInstance:
     - target: {fileID: 6793937676351455444, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731819123188037467, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bed2f7f46ad3e4349b1497df8bab1233, type: 2}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: velUp
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397835745856636679, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
+      propertyPath: maxDistance
+      value: 31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 380e1eefec3ec7549b40c3c1724d85e6, type: 3}
